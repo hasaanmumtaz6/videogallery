@@ -9,6 +9,7 @@ export default function Profile() {
   });
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function Profile() {
       const response = await axios.post("/api/upload", form, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("Video uploaded successfully!");
+      setMessage(`${response}: Video uploaded successfully!`);
     } catch (error) {
       console.error("Error uploading video:", error);
     }
@@ -34,6 +35,7 @@ export default function Profile() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Profile</h1>
+      {message && <b>{message}</b>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -62,7 +64,10 @@ export default function Profile() {
           onChange={(e) => setThumbnailFile(e.target.files?.[0] || null)}
           className="block w-full"
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
           Upload Video
         </button>
       </form>
