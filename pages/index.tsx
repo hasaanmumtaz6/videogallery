@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image"
 
 interface Video {
   _id: string;
@@ -33,7 +34,7 @@ export default function Home() {
         {videos.map((video) => (
           <Link key={video._id} href={`/video/${video._id}`}>
             <div className="cursor-pointer">
-              <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover rounded" />
+              <Image src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover rounded" />
               <h2 className="mt-2 font-semibold">{video.title}</h2>
             </div>
           </Link>
