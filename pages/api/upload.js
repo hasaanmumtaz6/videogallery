@@ -1,8 +1,6 @@
-import { NextApiResponse } from "next";
 import multer from "multer";
 import { mongooseConnection } from "@/utils/mongo";
 import Video from "@/models/Video";
-import { NextApiRequestWithFiles } from "@/types/custom";
 
 export const config = {
   api: { bodyParser: false },
@@ -22,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const handler = async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
+const handler = async (req, res) => {
   await mongooseConnection();
 
   if (req.method === "POST") {
@@ -31,7 +29,7 @@ const handler = async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
       { name: "thumbnail", maxCount: 1 },
     ]);
 
-    uploadMiddleware(req as any, res as any, async (err) => {
+    uploadMiddleware(req, res, async (err) => {
       if (err) return res.status(500).json({ error: err.message });
 
       const { title, description, uploader } = req.body;
